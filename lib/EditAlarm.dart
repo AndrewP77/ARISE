@@ -28,44 +28,141 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
         children: <Widget>[
           TimePickerSpinner(
               normalTextStyle: TextStyle(
-                  fontSize: 24,
-                  color: Theme.of(context).highlightColor
-              ),
-              highlightedTextStyle: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white
-              ),
+                  fontSize: 24, color: Theme.of(context).highlightColor),
+              highlightedTextStyle:
+                  TextStyle(fontSize: 24, color: Colors.white),
               alignment: Alignment.center,
               is24HourMode: true,
               spacing: 50,
               itemHeight: 80,
               isForce2Digits: true,
-              onTimeChange: null /*(time) {
+              onTimeChange:
+                  null /*(time) {
                   setState(() {
                     _dateTime = time;
                   }
                       */
               ),
-          const ListTile(
-            title: Text('Label'),
-            subtitle: Text('text'),
-            trailing: Icon(Icons.arrow_right),
-          ),
-          const ListTile(
-            title: Text('Alarm Sound'),
-            subtitle: Text('text'),
-            trailing: Icon(Icons.arrow_right),
-          ),
-          const ListTile(
-            title: Text('Repeat'),
-            subtitle: Text('text'),
-            trailing: Icon(Icons.arrow_right),
-          ),
-          const ListTile(
-            title: Text('Challenges'),
-            subtitle: Text('text'),
-            trailing: Icon(Icons.arrow_right),
-          )
+          ListTile(
+              title: Text('Label'),
+              subtitle: Text('text'),
+              trailing: Icon(Icons.arrow_right),
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25))),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Modal BottomSheet'),
+                              ElevatedButton(
+                                child: const Text('Close BottomSheet'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              }),
+          ListTile(
+              title: Text('Alarm Sound'),
+              subtitle: Text('text'),
+              trailing: Icon(Icons.arrow_right),
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25))),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Modal BottomSheet'),
+                              ElevatedButton(
+                                child: const Text('Close BottomSheet'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              }),
+          ListTile(
+              title: Text('Repeat'),
+              subtitle: Text('text'),
+              trailing: Icon(Icons.arrow_right),
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25))),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Modal BottomSheet'),
+                              ElevatedButton(
+                                child: const Text('Close BottomSheet'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              }),
+          ListTile(
+              title: Text('Challenges'),
+              subtitle: Text('text'),
+              trailing: Icon(Icons.arrow_right),
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25))),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Modal BottomSheet'),
+                              ElevatedButton(
+                                child: const Text('Close BottomSheet'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              })
         ],
       ),
     );

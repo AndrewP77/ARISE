@@ -17,7 +17,6 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
       appBar: AppBar(
         title: const Text('Alarms'),
         centerTitle: true,
-        //leading: const Icon(Icons.menu),
         backgroundColor: Colors.transparent,
       ),
       drawer: Drawer(
