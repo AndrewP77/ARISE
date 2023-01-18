@@ -1,3 +1,5 @@
+import 'CustomForm.dart';
+import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
@@ -56,23 +58,24 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                     context: context,
                     builder: (BuildContext context) {
                       return SizedBox(
-                        height: 200,
+                        height: 300,
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              const Text('Modal BottomSheet'),
-                              ElevatedButton(
-                                child: const Text('Close BottomSheet'),
-                                onPressed: () => Navigator.pop(context),
+                              Text(
+                                'Add alarm label',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
+                              const MyCustomForm(),
                             ],
                           ),
                         ),
                       );
                     });
               }),
+          const Divider(),
           ListTile(
               title: Text('Alarm Sound'),
               subtitle: Text('text'),
@@ -86,23 +89,17 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                     context: context,
                     builder: (BuildContext context) {
                       return SizedBox(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              const Text('Modal BottomSheet'),
-                              ElevatedButton(
-                                child: const Text('Close BottomSheet'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                          height: 250,
+                          child: ListView(
+                              padding: const EdgeInsets.only(
+                                  left: 0, right: 0, top: 16),
+                              children: List.generate(15, (index) {
+                                return ListTile(title: Text('Item $index'));
+                              })
+                              ));
                     });
               }),
+          const Divider(),
           ListTile(
               title: Text('Repeat'),
               subtitle: Text('text'),
@@ -116,53 +113,41 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                     context: context,
                     builder: (BuildContext context) {
                       return SizedBox(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              const Text('Modal BottomSheet'),
-                              ElevatedButton(
-                                child: const Text('Close BottomSheet'),
-                                onPressed: () => Navigator.pop(context),
+                          height: 250,
+                          child: Center(
+                              child: ListView(
+                            padding: const EdgeInsets.only(
+                                left: 0, right: 0, top: 16),
+                            children: [
+                              ListTile(
+                                title: Text("Once"),
+                                onTap: () {},
                               ),
+                              ListTile(
+                                title: Text("Daily"),
+                                onTap: () {},
+                              ),
+                              ListTile(
+                                title: Text("Monday to Friday"),
+                                onTap: () {},
+                              ),
+                              ListTile(
+                                title: Text("Custom"),
+                                onTap: () {},
+                              )
                             ],
-                          ),
-                        ),
-                      );
+                          )));
                     });
               }),
+          const Divider(),
           ListTile(
               title: Text('Challenges'),
               subtitle: Text('text'),
               trailing: Icon(Icons.arrow_right),
-              onTap: () {
-                showModalBottomSheet(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25))),
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              const Text('Modal BottomSheet'),
-                              ElevatedButton(
-                                child: const Text('Close BottomSheet'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    });
-              })
+              onTap: () => {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TaskSelectionWidget()))
+                  })
         ],
       ),
     );

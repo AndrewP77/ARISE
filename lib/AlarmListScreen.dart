@@ -1,9 +1,9 @@
-import 'package:arise/EditAlarm.dart';
+import 'EditAlarm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlarmListScreenWidget extends StatefulWidget {
-  const AlarmListScreenWidget({Key? key}): super(key: key);
+  const AlarmListScreenWidget({Key? key}) : super(key: key);
 
   @override
   _AlarmListScreenWidgetState createState() => _AlarmListScreenWidgetState();
@@ -20,10 +20,15 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
         backgroundColor: Colors.transparent,
       ),
       drawer: Drawer(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0)
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(25),
+                topRight: Radius.circular(25)
+            )
         ),
-        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,//const Color.fromRGBO(25, 28, 26, 1),
+        backgroundColor: Theme.of(context)
+            .colorScheme
+            .secondaryContainer, //const Color.fromRGBO(25, 28, 26, 1),
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
@@ -31,9 +36,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              child: Text('Menu')
-            ),
+            const DrawerHeader(child: Text('Menu')),
             ListTile(
               leading: const Icon(Icons.grade),
               title: const Text('Points & Stats'),
@@ -60,12 +63,11 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
       //body: () {},
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0)
-        ),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         onPressed: () => {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EditAlarmWidget()))
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => EditAlarmWidget()))
         },
         tooltip: 'Add Alarm',
         child: Icon(Icons.add),
@@ -73,5 +75,4 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
-
 }
