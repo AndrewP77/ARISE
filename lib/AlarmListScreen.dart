@@ -1,3 +1,5 @@
+import 'package:arise/AlarmInstance.dart';
+
 import 'EditAlarm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +62,12 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
           ],
         ),
       ),
-      //body: () {},
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: List.generate(5, (index) {
+          return AlarmInstanceWidget();
+        }),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shape:

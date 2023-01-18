@@ -51,6 +51,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
               trailing: Icon(Icons.arrow_right),
               onTap: () {
                 showModalBottomSheet(
+                    //TODO: lift bottom sheet when keyboard appears
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(25),
