@@ -22,12 +22,12 @@ class _SettingsScreen extends State<SettingsScreen>{
         padding: EdgeInsets.zero,
         children: <Widget>[
           ListTile(
-            title: Text('Profile'),
+            title: Text('Profile', style: TextStyle(fontFamily: 'Inter')),
             trailing: Icon(Icons.arrow_right),
           ),
           Divider(),
           ListTile(
-            title: Text('Volume'),
+            title: Text('Volume', style: TextStyle(fontFamily: 'Inter')),
             trailing: Icon(Icons.arrow_right),
             onTap: () {
                 showModalBottomSheet(
