@@ -63,7 +63,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
       body: ListView(
         padding: EdgeInsets.zero,
         children: List.generate(5, (index) {
-          return AlarmInstanceWidget();
+          return AlarmInstanceWidget('Alarm $index', index, index, 'Once', 'None', true);
         }),
       ),
       floatingActionButton: FloatingActionButton(

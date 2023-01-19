@@ -57,24 +57,25 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                             topLeft: Radius.circular(25),
                             topRight: Radius.circular(25))),
                     context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: 300,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Add alarm label',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                              ),
-                              const MyCustomForm(),
-                            ],
+                    builder: (context) => Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: SizedBox(
+                          height: 300,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Add alarm label',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                const MyCustomForm(),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    });
+                        )));
               }),
           const Divider(),
           ListTile(
@@ -96,8 +97,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                                   left: 0, right: 0, top: 16),
                               children: List.generate(15, (index) {
                                 return ListTile(title: Text('Item $index'));
-                              })
-                              ));
+                              })));
                     });
               }),
           const Divider(),
