@@ -10,7 +10,7 @@ class TitleScreen extends StatefulWidget {
 }
 
 class _TitleScreen extends State<TitleScreen> {
-  int splashTime = 3;
+  int splashTime = 1;
   // duration of splash screen on second
 
   @override

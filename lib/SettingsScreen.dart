@@ -1,4 +1,8 @@
+import 'package:arise/LocationField.dart';
+import 'package:arise/NameField.dart';
 import 'package:flutter/material.dart';
+
+import 'CustomForm.dart';
 
 
 class SettingsScreen extends StatefulWidget {
@@ -13,18 +17,54 @@ class _SettingsScreen extends State<SettingsScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Settings', style: TextStyle(fontFamily: 'Inter'),),
         centerTitle: true,
         // leading: const Icon(Icons.arrow_back),
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
+      body:
+      ListView(
+        padding: EdgeInsets.all(22),
         children: <Widget>[
+
           ListTile(
             title: Text('Profile', style: TextStyle(fontFamily: 'Inter')),
             trailing: Icon(Icons.arrow_right),
+            onTap: () {
+              showModalBottomSheet(
+
+                //TODO: lift bottom sheet when keyboard appears
+                  shape: const RoundedRectangleBorder(
+
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25))),
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 300,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Profile',
+                              style:
+                              Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            const LocationField(),
+                            const NameField(),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            }
           ),
+          
           Divider(),
           ListTile(
             title: Text('Volume', style: TextStyle(fontFamily: 'Inter')),
@@ -46,7 +86,7 @@ class _SettingsScreen extends State<SettingsScreen>{
                               Text(
                                 'Control Volume',
                                 style: Theme.of(context).textTheme.titleLarge,),
-                              MyStatefulWidget(),
+                              const MyStatefulWidget(),
                             ],
                           ),
                         ),
@@ -54,20 +94,19 @@ class _SettingsScreen extends State<SettingsScreen>{
                     });
               }
           ),
-          Divider(),
-          ListTile(
+          const Divider(),
+          const ListTile(
             title: Text('Auto-Silence'),
             trailing: Icon(Icons.arrow_right),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             title: const Text('Contact Us'),
-            trailing: Icon(Icons.arrow_right),
+            trailing: const Icon(Icons.arrow_right),
             onTap: () {
-              AlertDialog alert = AlertDialog(
-                title: const Text('Contact Us'),
-                content: const Text('If you have any questions or problems while using ARISE! contact us through the following page: \nhttps://github.com/AndrewP77/ARISE',
-                
+              AlertDialog alert = const AlertDialog(
+                title: Text('Contact Us'),
+                content: Text('If you have any questions or problems while using ARISE! contact us through the following page: \nhttps://github.com/AndrewP77/ARISE',
                 ),
               );
               showDialog(
