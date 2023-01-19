@@ -1,4 +1,5 @@
 import 'package:arise/AlarmInstance.dart';
+import 'package:arise/SettingsScreen.dart';
 
 import 'EditAlarm.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,11 +53,8 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+              onTap: () => {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsScreen()))
               },
             ),
           ],
