@@ -1,16 +1,23 @@
+import 'AlarmInfo.dart';
+
 import 'CustomForm.dart';
 import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class EditAlarmWidget extends StatefulWidget {
-  const EditAlarmWidget({Key? key}) : super(key: key);
+  EditAlarmWidget(this.alarm, {super.key});
+  final AlarmInfo alarm;
 
   @override
-  _EditAlarmWidgetState createState() => _EditAlarmWidgetState();
+  _EditAlarmWidgetState createState() => _EditAlarmWidgetState(alarm);
 }
 
 class _EditAlarmWidgetState extends State<EditAlarmWidget> {
+  final AlarmInfo tempAlarm;
+  _EditAlarmWidgetState(this.tempAlarm);
+  //final tempAlarm = AlarmInfo();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +36,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           TimePickerSpinner(
+            time: tempAlarm.alarmDateTime,
               normalTextStyle: TextStyle(
                   fontSize: 24, color: Theme.of(context).highlightColor),
               highlightedTextStyle:
@@ -48,11 +56,10 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
               ),
           ListTile(
               title: Text('Label'),
-              subtitle: Text('text'),
+              subtitle: Text(tempAlarm.title),
               trailing: Icon(Icons.arrow_right),
               onTap: () {
                 showModalBottomSheet(
-                    //TODO: lift bottom sheet when keyboard appears
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(25),
@@ -72,7 +79,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                const MyCustomForm(),
+                                const CustomForm(),
                               ],
                             ),
                           ),
@@ -104,7 +111,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
           const Divider(),
           ListTile(
               title: Text('Repeat'),
-              subtitle: Text('text'),
+              subtitle: Text(tempAlarm.daysActive),
               trailing: Icon(Icons.arrow_right),
               onTap: () {
                 showModalBottomSheet(
@@ -123,7 +130,12 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                             children: [
                               ListTile(
                                 title: Text("Once"),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    tempAlarm.daysActive = 'Once';
+                                    Navigator.pop(context);
+                                  });
+                                  },
                               ),
                               ListTile(
                                 title: Text("Daily"),

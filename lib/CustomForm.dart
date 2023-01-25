@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
+class CustomForm extends StatefulWidget {
+  const CustomForm({super.key});
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
+  CustomFormState createState() {
+    return CustomFormState();
   }
 }
 
 // Create a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+class CustomFormState extends State<CustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //

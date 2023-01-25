@@ -1,6 +1,8 @@
+import 'AlarmInfo.dart';
 import 'package:arise/AlarmInstance.dart';
 import 'package:arise/SettingsScreen.dart';
-
+import 'package:intl/intl.dart';
+import 'data.dart';
 import 'EditAlarm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,9 +64,57 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
       ),
       body: ListView(
         padding: EdgeInsets.zero,
-        children: List.generate(5, (index) {
-          return AlarmInstanceWidget('Alarm $index', index, index, 'Once', 'None', true);
-        }),
+        children: alarms.map((alarm) {
+          return GestureDetector(
+            onTap: () => {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => EditAlarmWidget(alarm)))
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: alarm.gradientColors,
+                  ),
+                  borderRadius: BorderRadius.circular(23)),
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(12),
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(DateFormat.Hm().format(alarm.alarmDateTime).toString(), style: Theme.of(context).textTheme.headlineSmall),
+                          //Text(hour.toString().padLeft(2, '0') + ':' + minute.toString().padLeft(2, '0'), style: Theme.of(context).textTheme.headlineSmall),
+                          Text(alarm.title, style: Theme.of(context).textTheme.bodyMedium),
+                          Text(alarm.daysActive, style: Theme.of(context).textTheme.bodyMedium),
+                        ]),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Switch(
+                            value: alarm.isActive,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                alarm.isActive = newValue;
+                              });
+                            }
+                        ),
+                        //Text('Challenges: $difficulty')
+                      ],
+                    )
+                  ]))
+          );
+        }).toList(),
+    //List.generate(5, (index) {
+          //return AlarmInstanceWidget('Alarm $index', index, index, 'Once', 'None', true);
+        //}),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -72,7 +122,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         onPressed: () => {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => EditAlarmWidget()))
+              .push(MaterialPageRoute(builder: (context) => EditAlarmWidget(AlarmInfo(DateTime.now()))))
         },
         tooltip: 'Add Alarm',
         child: Icon(Icons.add),
