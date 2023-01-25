@@ -38,12 +38,13 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
               spacing: 50,
               itemHeight: 80,
               isForce2Digits: true,
-              onTimeChange:
-                  null /*(time) {
+              onTimeChange: (time) {}
+        /*
                   setState(() {
                     _dateTime = time;
                   }
-                      */
+
+         */
               ),
           ListTile(
               title: Text('Label'),
