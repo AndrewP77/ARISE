@@ -54,7 +54,8 @@ class _MicTaskState extends State<MicTask> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return MaterialApp(
+    home: Scaffold (
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -105,8 +106,8 @@ class _MicTaskState extends State<MicTask> {
           ),
         )
       )
+    )
     );
-
   }
    
 }
