@@ -20,7 +20,7 @@ class _LightTaskState extends State<LightTask> {
   late Light _light;
   late StreamSubscription _subscription;
   String _luximage = 'Lamp_off.png';
-  int th = 500;
+  int th = 15;
 
   void stopListening() {
     _subscription.cancel();
