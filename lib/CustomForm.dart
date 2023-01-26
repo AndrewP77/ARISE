@@ -2,17 +2,30 @@ import 'package:flutter/material.dart';
 
 
 class CustomForm extends StatefulWidget {
-  const CustomForm({super.key});
+  const CustomForm(this.formController, {super.key});
+  final TextEditingController formController;
 
   @override
   CustomFormState createState() {
-    return CustomFormState();
+    return CustomFormState(formController);
   }
 }
 
 // Create a corresponding State class.
 // This class holds data related to the form.
 class CustomFormState extends State<CustomForm> {
+  // Create a text controller and use it to retrieve the current value
+  // of the TextField.
+  //final FormController = TextEditingController();
+  CustomFormState(this.formController);
+  final TextEditingController formController;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    formController.dispose();
+    super.dispose();
+  }
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -27,6 +40,7 @@ class CustomFormState extends State<CustomForm> {
         key: _formKey,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextFormField(
+            controller: formController,
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -43,6 +57,7 @@ class CustomFormState extends State<CustomForm> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).errorColor),
                   onPressed: () {
+                    formController.dispose();
                     Navigator.of(context).pop();
                   },
                   child: const Text('Cancel'),
@@ -59,6 +74,7 @@ class CustomFormState extends State<CustomForm> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Processing Data')),
                       );
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text('OK'),

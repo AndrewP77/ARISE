@@ -1,15 +1,17 @@
+import 'color_schemes.g.dart';
 import 'package:arise/TitleScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  var themeData = ThemeData(
 
+  const MyApp({Key? key}) : super(key: key);
+
+  /*
+  var themeData = ThemeData(
     appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent
     ),
@@ -63,12 +65,15 @@ class MyApp extends StatelessWidget {
     ),
   );
 
+   */
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ARISE!',
-      theme: themeData,//(
+      theme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      //theme: themeData,//(
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the

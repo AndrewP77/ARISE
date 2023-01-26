@@ -1,22 +1,31 @@
 import 'AlarmInfo.dart';
-
+import 'data.dart';
 import 'CustomForm.dart';
 import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class EditAlarmWidget extends StatefulWidget {
-  EditAlarmWidget(this.alarm, {super.key});
+  const EditAlarmWidget(this.alarm, {super.key});
   final AlarmInfo alarm;
+
+  AlarmInfo get getAlarm => alarm;
 
   @override
   _EditAlarmWidgetState createState() => _EditAlarmWidgetState(alarm);
 }
 
 class _EditAlarmWidgetState extends State<EditAlarmWidget> {
-  final AlarmInfo tempAlarm;
-  _EditAlarmWidgetState(this.tempAlarm);
-  //final tempAlarm = AlarmInfo();
+  final AlarmInfo alarmInfo;
+  _EditAlarmWidgetState(this.alarmInfo);
+
+  late String title = alarmInfo.getTitle;
+  late String daysActive = alarmInfo.getDaysActive;
+  late DateTime alarmDateTime = alarmInfo.getAlarmDateTime;
+
+  set setTitle(String title) {
+    this.title=title;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +33,26 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
       appBar: AppBar(
         title: const Text('Edit Alarm'),
         centerTitle: true,
-        actions: const [
+        actions: [
           IconButton(
-            onPressed: null,
-            icon: Icon(Icons.done),
+            onPressed: () {
+              setState(() {
+                Navigator.pop(context);
+                alarmInfo.title = title;
+                alarmInfo.alarmDateTime = alarmDateTime;
+                alarmInfo.daysActive = daysActive;
+              });
+            },
+            icon: const Icon(Icons.done),
             tooltip: 'Save Alarm',
           )
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
+      body: Column(
+        //padding: EdgeInsets.zero,
         children: <Widget>[
           TimePickerSpinner(
-            time: tempAlarm.alarmDateTime,
+            time: alarmDateTime,
               normalTextStyle: TextStyle(
                   fontSize: 24, color: Theme.of(context).highlightColor),
               highlightedTextStyle:
@@ -46,19 +62,19 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
               spacing: 50,
               itemHeight: 80,
               isForce2Digits: true,
-              onTimeChange: (time) {}
-        /*
+              onTimeChange: (time) {
                   setState(() {
-                    _dateTime = time;
-                  }
-
-         */
+                    alarmDateTime = time;
+                  });
+            }
               ),
           ListTile(
               title: Text('Label'),
-              subtitle: Text(tempAlarm.title),
+              subtitle: Text(title),
               trailing: Icon(Icons.arrow_right),
               onTap: () {
+                var titleController = TextEditingController();
+                //titleController.addListener(() {setState(() {title = titleController.text;});});
                 showModalBottomSheet(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -79,11 +95,11 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                const CustomForm(),
+                                CustomForm(titleController),
                               ],
                             ),
                           ),
-                        )));
+                        ))).then((value) => setState(() {title = titleController.text;}));
               }),
           const Divider(),
           ListTile(
@@ -111,7 +127,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
           const Divider(),
           ListTile(
               title: Text('Repeat'),
-              subtitle: Text(tempAlarm.daysActive),
+              subtitle: Text(alarmInfo.daysActive),
               trailing: Icon(Icons.arrow_right),
               onTap: () {
                 showModalBottomSheet(
@@ -132,18 +148,28 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                                 title: Text("Once"),
                                 onTap: () {
                                   setState(() {
-                                    tempAlarm.daysActive = 'Once';
+                                    alarmInfo.daysActive = 'Once';
                                     Navigator.pop(context);
                                   });
                                   },
                               ),
                               ListTile(
                                 title: Text("Daily"),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    alarmInfo.daysActive = Days.getFormatted([0, 1, 2, 3, 4, 5, 6], compact: true);
+                                    Navigator.pop(context);
+                                  });
+                                },
                               ),
                               ListTile(
                                 title: Text("Monday to Friday"),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    alarmInfo.daysActive = Days.getFormatted([1, 2, 3, 4, 5], compact: true);
+                                    Navigator.pop(context);
+                                  });
+                                },
                               ),
                               ListTile(
                                 title: Text("Custom"),

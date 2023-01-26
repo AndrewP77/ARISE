@@ -1,6 +1,6 @@
 //apo tutorial indou sto yt, idk vlepoume
 //"In real application this will be coming from local db"
-import 'dart:html';
+
 import 'dart:ui';
 
 import 'AlarmInfo.dart';
@@ -37,7 +37,7 @@ class Days {
 
 List<AlarmInfo> alarms = [
   AlarmInfo(DateTime.now().add(Duration(hours: 1)), title: 'test', daysActive: Days.getFormatted([0, 2, 4], compact: true)),
-  AlarmInfo(DateTime.now().add(Duration(hours: 2)), title: 'test easy', gradientColors: Gradients.easy),
-  AlarmInfo(DateTime.now().add(Duration(hours: 3)), title: 'test med', gradientColors: Gradients.medium),
-  AlarmInfo(DateTime.now().add(Duration(hours: 4)), title: 'test hard', gradientColors: Gradients.hard)
+  AlarmInfo(DateTime.now().add(Duration(hours: 2)), title: 'test easy', difficulty: 'Easy'),
+  AlarmInfo(DateTime.now().add(Duration(hours: 3)), title: 'test med', difficulty: 'Medium'),
+  AlarmInfo(DateTime.now().add(Duration(hours: 4)), title: 'test hard', difficulty: 'Hard')
 ];

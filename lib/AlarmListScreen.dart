@@ -1,5 +1,8 @@
+import 'package:arise/LightTask.dart';
+import 'package:arise/MathTask.dart';
+import 'package:arise/MicTask.dart';
+
 import 'AlarmInfo.dart';
-import 'package:arise/AlarmInstance.dart';
 import 'package:arise/SettingsScreen.dart';
 import 'package:intl/intl.dart';
 import 'data.dart';
@@ -17,20 +20,23 @@ class AlarmListScreenWidget extends StatefulWidget {
 class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
   @override
   Widget build(BuildContext context) {
+    AlarmInfo tempAlarm;
     return Scaffold(
       //backgroundColor: const Color.fromARGB(1, 26, 28, 25),
       appBar: AppBar(
-        title: const Text('Alarms'),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-      ),
+          title: const Text('Alarms'),
+          centerTitle: true,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15)))
+          //backgroundColor: Colors.transparent,
+          ),
       drawer: Drawer(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(25),
-                topRight: Radius.circular(25)
-            )
-        ),
+                topRight: Radius.circular(25))),
         backgroundColor: Theme.of(context)
             .colorScheme
             .secondaryContainer, //const Color.fromRGBO(25, 28, 26, 1),
@@ -56,7 +62,29 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () => {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsScreen()))
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SettingsScreen()))
+              },
+            ),
+            ListTile(
+              title: const Text('Light Sensor Task'),
+              onTap: () => {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => LightTask()))
+              },
+            ),
+            ListTile(
+              title: const Text('Mic Task'),
+              onTap: () => {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => MicTask()))
+              },
+            ),
+            ListTile(
+              title: const Text('Math Task'),
+              onTap: () => {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CreateEquation()))
               },
             ),
           ],
@@ -66,54 +94,68 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
         padding: EdgeInsets.zero,
         children: alarms.map((alarm) {
           return GestureDetector(
-            onTap: () => {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => EditAlarmWidget(alarm)))
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: alarm.gradientColors,
-                  ),
-                  borderRadius: BorderRadius.circular(23)),
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(12),
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(DateFormat.Hm().format(alarm.alarmDateTime).toString(), style: Theme.of(context).textTheme.headlineSmall),
-                          //Text(hour.toString().padLeft(2, '0') + ':' + minute.toString().padLeft(2, '0'), style: Theme.of(context).textTheme.headlineSmall),
-                          Text(alarm.title, style: Theme.of(context).textTheme.bodyMedium),
-                          Text(alarm.daysActive, style: Theme.of(context).textTheme.bodyMedium),
-                        ]),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+              onTap: () => {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                            builder: (context) => EditAlarmWidget(alarm)))
+                        .then((value) {
+                      setState(() {
+                        //refresh the page content
+                      });
+                    })
+                  },
+              child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: alarm.gradientColors,
+                      ),
+                      borderRadius: BorderRadius.circular(23)),
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(12),
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        Switch(
-                            value: alarm.isActive,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                alarm.isActive = newValue;
-                              });
-                            }
-                        ),
-                        //Text('Challenges: $difficulty')
-                      ],
-                    )
-                  ]))
-          );
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  DateFormat.Hm()
+                                      .format(alarm.alarmDateTime)
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
+                              //Text(hour.toString().padLeft(2, '0') + ':' + minute.toString().padLeft(2, '0'), style: Theme.of(context).textTheme.headlineSmall),
+                              Text(alarm.title,
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+                              Text(alarm.daysActive,
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+                            ]),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Switch(
+                                value: alarm.isActive,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    alarm.isActive = newValue;
+                                  });
+                                }),
+                            Text('Challenges: ' + alarm.difficulty)
+                          ],
+                        )
+                      ])));
         }).toList(),
-    //List.generate(5, (index) {
-          //return AlarmInstanceWidget('Alarm $index', index, index, 'Once', 'None', true);
+        //List.generate(5, (index) {
+        //return AlarmInstanceWidget('Alarm $index', index, index, 'Once', 'None', true);
         //}),
       ),
       floatingActionButton: FloatingActionButton(
@@ -121,11 +163,19 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         onPressed: () => {
+          tempAlarm = AlarmInfo(DateTime.now()),
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => EditAlarmWidget(AlarmInfo(DateTime.now()))))
+              .push(MaterialPageRoute(
+                  builder: (context) => EditAlarmWidget(tempAlarm)))
+              .then((value) {
+            setState(() {
+              //refresh the page content
+              alarms.add(tempAlarm);
+            });
+          })
         },
         tooltip: 'Add Alarm',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

@@ -29,6 +29,7 @@ class _TaskSelectionWidgetState extends State<TaskSelectionWidget> {
           return Text('Item $index');
         }),
       ),
+      bottomNavigationBar: BottomAppBar(),
     );
   }
 }
