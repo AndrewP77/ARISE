@@ -108,15 +108,13 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
                 })
               },
               child: Dismissible(
-                  key: Key(alarm.getTitle),
+                  key: UniqueKey(),
                   onDismissed: (direction) {
-                    if (direction == DismissDirection.endToStart) {
                       setState(() {
                         alarms.removeAt(index);
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Alarm dismissed')));
-                    }
                   },
                   secondaryBackground: Container(
                     margin: const EdgeInsets.only(right: 20),
