@@ -41,6 +41,8 @@ dependencies:
   speech_to_text: ^6.1.1
   intl: ^0.18.0
   light: ^2.1.0
+  weather: ^2.0.1
+  geolocator: ^8.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'GreetingScreen.dart';
 
 //καθε φορα που κανει λαθος αλλαζει η πραξη δεν καταφερα να μενει η ιδια
 
@@ -11,7 +12,7 @@ class CreateEquation extends StatefulWidget {
 }
 
 class _CreateEquationState extends State<CreateEquation> {
-
+  int delayAfterCompletion = 2;
   var list = ['+', '-', '*', '/'];
   var difficulty = 'easy';  //πρεπει να τεθει απο αλλο αρχειο
 
@@ -39,13 +40,18 @@ class _CreateEquationState extends State<CreateEquation> {
 
           //go to greeting screen προς το παρον παει σε αλλη πραξη
             
-
-            showDialog<String>(
+        Future.delayed(Duration(seconds: delayAfterCompletion), () async {
+              Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => GreetingScreen()),
+          );
+            });
+            /*showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
                   title: const Text('Correct!')
                 ),
-            );
+            );*/
         }
         else {
          showDialog(

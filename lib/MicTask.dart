@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:avatar_glow/avatar_glow.dart';
-
+import 'GreetingScreen.dart';
 
 class MicTask extends StatefulWidget {
   const MicTask({Key? key}) : super(key: key);
@@ -13,8 +13,9 @@ class MicTask extends StatefulWidget {
 }
 
 class _MicTaskState extends State<MicTask> {
-
+  int delayAfterCompletion = 2;
   late stt.SpeechToText _speech;
+  bool _done = false;
   bool _isListening = false;
   double _confidence = 1.0;
   String _text = ' ';
@@ -39,6 +40,7 @@ class _MicTaskState extends State<MicTask> {
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
+            
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
             }
@@ -49,8 +51,33 @@ class _MicTaskState extends State<MicTask> {
       setState(() => _isListening = false);
       _speech.stop();
     }
+    setState(() {
+      _done = true;
+      _route();
+    });
   }
-
+  
+  void _route() async{
+   if(_done) {
+      if (test == _text) {
+       Future.delayed(Duration(seconds: delayAfterCompletion), () async {
+              Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => GreetingScreen()),
+          );
+            });
+      }
+      else {
+                SingleChildScrollView(
+                 reverse: true,
+                 child: Container(
+                  padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
+                  child: Text('try again'),
+                )
+               );
+      }
+  }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,15 +106,14 @@ class _MicTaskState extends State<MicTask> {
                 //quote
                 test,
               ),
-              if (test == _text) ... [
-                SingleChildScrollView(
+              if (test == _text) ...[
+                 SingleChildScrollView(
                  reverse: true,
                  child: Container(
                   padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
                   child: Text('correct'),
                 )
                )
-               
                //navigate to another screen
               ]
               else ... [

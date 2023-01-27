@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:light/light.dart';
+import 'GreetingScreen.dart';
 
 //lamp_off same size as lamp_on
 //added success message
@@ -38,7 +39,10 @@ class _LightTaskState extends State<LightTask> {
             Message = 'Success!';
             _luximage = 'Lamp_on.png';
             Future.delayed(Duration(seconds: delayAfterCompletion), () async {
-              Navigator.of(context).pop();
+              Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => GreetingScreen()),
+          );
             });
           });
 
