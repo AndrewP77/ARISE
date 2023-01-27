@@ -2,8 +2,6 @@ import 'package:arise/LocationField.dart';
 import 'package:arise/NameField.dart';
 import 'package:flutter/material.dart';
 
-import 'CustomForm.dart';
-
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -36,7 +34,6 @@ class _SettingsScreen extends State<SettingsScreen>{
             onTap: () {
               showModalBottomSheet(
 
-                //TODO: lift bottom sheet when keyboard appears
                   shape: const RoundedRectangleBorder(
 
                       borderRadius: BorderRadius.only(

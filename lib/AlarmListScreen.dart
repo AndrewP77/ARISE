@@ -1,13 +1,15 @@
+import 'dart:ui';
+
 import 'package:arise/LightTask.dart';
 import 'package:arise/MathTask.dart';
 import 'package:arise/MicTask.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'AlarmInfo.dart';
 import 'package:arise/SettingsScreen.dart';
 import 'package:intl/intl.dart';
 import 'data.dart';
 import 'EditAlarm.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlarmListScreenWidget extends StatefulWidget {
@@ -26,7 +28,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
       appBar: AppBar(
           title: const Text('Alarms'),
           centerTitle: true,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(15),
                   bottomLeft: Radius.circular(15)))
@@ -90,76 +92,95 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
           ],
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: alarms.map((alarm) {
-          return GestureDetector(
+      body: ListView.builder(
+          itemCount: alarms.length,
+          itemBuilder: (context, index) {
+            final alarm = alarms[index];
+            return GestureDetector(
               onTap: () => {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) => EditAlarmWidget(alarm)))
-                        .then((value) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) => EditAlarmWidget(alarm)))
+                    .then((value) {
+                  setState(() {
+                    //refresh the page content
+                  });
+                })
+              },
+              child: Dismissible(
+                  key: UniqueKey(),
+                  onDismissed: (direction) {
                       setState(() {
-                        //refresh the page content
+                        alarms.removeAt(index);
                       });
-                    })
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Alarm dismissed')));
                   },
-              child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: alarm.gradientColors,
-                      ),
-                      borderRadius: BorderRadius.circular(23)),
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(12),
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  DateFormat.Hm()
-                                      .format(alarm.alarmDateTime)
-                                      .toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
-                              //Text(hour.toString().padLeft(2, '0') + ':' + minute.toString().padLeft(2, '0'), style: Theme.of(context).textTheme.headlineSmall),
-                              Text(alarm.title,
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium),
-                              Text(alarm.daysActive,
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium),
-                            ]),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                  secondaryBackground: Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    alignment: Alignment.centerRight,
+                    child: const Icon(Icons.delete),
+                  ),
+                  background: Container(
+                      margin: const EdgeInsets.only(left: 20),
+                      alignment: Alignment.centerLeft,
+                      child: const Icon(Icons.delete)),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: alarm.gradientColors,
+                          ),
+                          borderRadius: BorderRadius.circular(23)),
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(12),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Switch(
-                                value: alarm.isActive,
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    alarm.isActive = newValue;
-                                  });
-                                }),
-                            Text('Challenges: ' + alarm.difficulty)
-                          ],
-                        )
-                      ])));
-        }).toList(),
-        //List.generate(5, (index) {
-        //return AlarmInstanceWidget('Alarm $index', index, index, 'Once', 'None', true);
-        //}),
-      ),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      DateFormat.Hm()
+                                          .format(alarm.alarmDateTime)
+                                          .toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall),
+                                  Text(alarm.title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  Text(alarm.daysActive,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                ]),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Switch(
+                                    value: alarm.isActive,
+                                    onChanged: (bool newValue) {
+                                      setState(() {
+                                        alarm.isActive = newValue;
+                                      });
+                                    }),
+                                Text('Challenges: ${alarm.difficulty}')
+                              ],
+                            )
+                          ]
+                      )
+                  )
+              ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         onPressed: () => {
@@ -170,7 +191,6 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
               .then((value) {
             setState(() {
               //refresh the page content
-              alarms.add(tempAlarm);
             });
           })
         },

@@ -1,7 +1,7 @@
 //apo tutorial indou sto yt, idk vlepoume
 //"In real application this will be coming from local db"
 
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 
 import 'AlarmInfo.dart';
 
@@ -34,6 +34,23 @@ class Days {
     return result;
   }
 }
+
+List<String> ringtones = [
+  'Default',
+  'the rest are random',
+  'sdjcknsdkmak',
+  'asjdchj',
+  'sieuifj',
+  'soidvnijsdnkjnjn',
+  'rurnnnvhfhfn bnv',
+  'itgjjvnbn',
+  'biigbymnmy',
+  'soeifmnmn',
+  'oiok8miumj'
+];
+List<String> difficulties = ['Easy', 'Medium', 'Hard'];
+List<Widget> difficultyWidgets = [Text('Easy'), Text('Medium'), Text('Hard')];
+List<bool> selectedDifficulties = [true, false, false];
 
 List<AlarmInfo> alarms = [
   AlarmInfo(DateTime.now().add(Duration(hours: 1)), title: 'test', daysActive: Days.getFormatted([0, 2, 4], compact: true)),

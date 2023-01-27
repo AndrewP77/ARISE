@@ -55,7 +55,6 @@ class CustomFormState extends State<CustomForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).errorColor),
                   onPressed: () {
                     formController.dispose();
                     Navigator.of(context).pop();
