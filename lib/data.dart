@@ -7,9 +7,9 @@ import 'AlarmInfo.dart';
 
 class Gradients {
   static const List<Color> neutral = [Color(0xff636c77), Color(0x0f636c77)];
-  static List<Color> easy = [Color(0xff30C8B6), Color(0x0fffb463)];
-  static List<Color> medium = [Color(0xffffa738), Color(0x0fDAf61f)];
-  static List<Color> hard = [Color(0xffDA0610), Color(0x0fff8484)];
+  static List<Color> easy = [const Color(0xff30C8B6), const Color(0x0fffb463)];
+  static List<Color> medium = [const Color(0xffffa738), const Color(0x0fDAf61f)];
+  static List<Color> hard = [const Color(0xffDA0610), const Color(0x0fff8484)];
 }
 
 class Days {

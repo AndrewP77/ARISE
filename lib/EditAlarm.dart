@@ -1,5 +1,7 @@
+//import 'AlarmInfo.dart';
 import 'AlarmInfo.dart';
-import 'data.dart';
+import 'AlarmListScreen.dart';
+import 'AlarmDatabase.dart';
 import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
@@ -28,7 +30,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
   set setTitle(String title) {
     this.title = title;
   }
-
+AlarmHelper _alarmHelper = AlarmHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +55,8 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                 alarmInfo.vibration = vibration;
                 alarmInfo.categories = categories;
                 alarmInfo.update();
-                if (!alarms.contains(alarmInfo)) alarms.add(alarmInfo);
+               // if (!alarms.contains(alarmInfo)) insertAlarm(alarmInfo);
+               _alarmHelper.insertAlarm(alarmInfo);
               });
             },
             icon: const Icon(Icons.done),

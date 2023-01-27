@@ -1,14 +1,12 @@
-import 'dart:ui';
-
 import 'package:arise/LightTask.dart';
 import 'package:arise/MathTask.dart';
 import 'package:arise/MicTask.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import 'AlarmInfo.dart';
 import 'package:arise/SettingsScreen.dart';
 import 'package:intl/intl.dart';
-import 'data.dart';
+import 'AlarmDatabase.dart';
 import 'EditAlarm.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +16,31 @@ class AlarmListScreenWidget extends StatefulWidget {
   @override
   _AlarmListScreenWidgetState createState() => _AlarmListScreenWidgetState();
 }
-
+AlarmHelper _alarmHelper = AlarmHelper();
 class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
+  // /DateTime? _alarmTime;
+  // late String _alarmTimeString;
+  // bool _isRepeatSelected = false;
+  Future<List<AlarmInfo>>? _alarms;
+  // List<AlarmInfo>? _currentAlarms;
+
+  @override
+  void initState() {
+    //_alarmTime = DateTime.now();
+    _alarmHelper.initializeDatabase().then((value) {
+      if (kDebugMode) {
+        print('------database initialized');
+      }
+      loadAlarms();
+    });
+    super.initState();
+  }
+
+  void loadAlarms() {
+    _alarms = _alarmHelper.getAlarms();
+    if (mounted) setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     AlarmInfo tempAlarm;
@@ -165,10 +186,10 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Switch(
-                                    value: alarm.isActive,
+                                    value: alarm.isActive == 'true' ? true : false,
                                     onChanged: (bool newValue) {
                                       setState(() {
-                                        alarm.isActive = newValue;
+                                        alarm.isActive == newValue ? 'true' : 'false';
                                       });
                                     }),
                                 Text('Challenges: ${alarm.difficulty}')
