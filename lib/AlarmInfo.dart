@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'data.dart';
 
 class AlarmInfo {
-  DateTime alarmDateTime;
+  String alarmDateTime;
   String title;
   bool isActive;
   bool vibration;
@@ -41,6 +41,6 @@ class AlarmInfo {
     }
   }
   String get getTitle => title;
-  DateTime get getAlarmDateTime => alarmDateTime;
+  String get getAlarmDateTime => alarmDateTime;
   String get getDaysActive => daysActive;
 }

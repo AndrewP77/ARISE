@@ -1,4 +1,6 @@
-import 'AlarmInfo.dart';
+import 'package:arise/AlarmDatabase.dart';
+
+
 import 'data.dart';
 import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
@@ -6,24 +8,24 @@ import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class EditAlarmWidget extends StatefulWidget {
   const EditAlarmWidget(this.alarm, {super.key});
-  final AlarmInfo alarm;
+  final Alarm alarm;
 
-  AlarmInfo get getAlarm => alarm;
+  Alarm get getAlarm => alarm;
 
   @override
   _EditAlarmWidgetState createState() => _EditAlarmWidgetState(alarm);
 }
 
 class _EditAlarmWidgetState extends State<EditAlarmWidget> {
-  final AlarmInfo alarmInfo;
+  final Alarm alarmInfo;
   _EditAlarmWidgetState(this.alarmInfo);
 
   late String title = alarmInfo.title;
   late String daysActive = alarmInfo.daysActive;
-  late DateTime alarmDateTime = alarmInfo.alarmDateTime;
+  late DateTime? alarmDateTime = alarmInfo.alarmDateTime;
   late String ringtone = alarmInfo.ringtone;
   late String difficulty = alarmInfo.difficulty;
-  late bool vibration = alarmInfo.vibration;
+  late int vibration = alarmInfo.vibration;
   late List<String> categories = List.from(alarmInfo.categories);
   set setTitle(String title) {
     this.title = title;
@@ -51,9 +53,11 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                 alarmInfo.daysActive = daysActive;
                 alarmInfo.difficulty = difficulty;
                 alarmInfo.vibration = vibration;
-                alarmInfo.categories = categories;
-                alarmInfo.update();
-                if (!alarms.contains(alarmInfo)) alarms.add(alarmInfo);
+
+                alarmInfo.isNew
+                    ? DatabaseHelper.instance.add(alarmInfo)
+                    : DatabaseHelper.instance.update(alarmInfo);
+                // alarmInfo.categories = categories;
               });
             },
             icon: const Icon(Icons.done),
@@ -69,7 +73,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
               normalTextStyle: TextStyle(
                   fontSize: 24, color: Theme.of(context).highlightColor),
               highlightedTextStyle:
-                  TextStyle(fontSize: 24, color: Colors.white),
+                  const TextStyle(fontSize: 24, color: Colors.white),
               alignment: Alignment.center,
               is24HourMode: true,
               spacing: 50,
@@ -264,10 +268,10 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
           ListTile(
             title: const Text('Vibration'),
             trailing: Switch(
-              value: vibration,
+              value: vibration == 1 ? true : false,
               onChanged: (bool value) {
                 setState(() {
-                  vibration = value;
+                  vibration = value ? 1 : 0;
                 });
               },
             ),

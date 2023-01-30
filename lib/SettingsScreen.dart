@@ -48,8 +48,8 @@ class _SettingsScreen extends State<SettingsScreen>{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
                           ),
                           SizedBox(
                             height: 280,
