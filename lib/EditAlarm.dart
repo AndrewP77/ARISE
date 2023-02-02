@@ -38,7 +38,8 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15))),
+                bottomLeft: Radius.circular(15))
+        ),
         scrolledUnderElevation: 0,
         title: const Text('Edit Alarm'),
         centerTitle: true,

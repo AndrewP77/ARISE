@@ -22,7 +22,7 @@ class _LightTaskState extends State<LightTask> {
   late StreamSubscription _subscription;
   String _luximage = 'Lamp_off.png';
   int th = 15;
-
+  RadialGradient background = const RadialGradient(colors: [Colors.grey, Colors.white38]);
   void stopListening() {
     _subscription.cancel();
   }
@@ -36,6 +36,7 @@ class _LightTaskState extends State<LightTask> {
         if (value > th) {
           stopListening();
           setState(() {
+            background = RadialGradient(colors: const [Colors.white, Colors.amber], radius: 0.7);
             Message = 'Success!';
             _luximage = 'Lamp_on.png';
             Future.delayed(Duration(seconds: delayAfterCompletion), () async {
@@ -70,16 +71,17 @@ class _LightTaskState extends State<LightTask> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Column( 
+    return Container(
+        decoration: BoxDecoration(gradient: background),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(Message),
+            Text(Message, style: Theme.of(context).textTheme.displaySmall,),
             Image.asset('assets/images/$_luximage'),
           ],
         ),
-      ),
     );
   }
 }

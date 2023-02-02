@@ -92,50 +92,48 @@ class _CreateEquationState extends State<CreateEquation> {
     var eq = list[Random().nextInt(list.length)];
     numbers = pickNumber(difficulty);
 
-    return MaterialApp (
-      home: Scaffold(
+    return Scaffold(
         //backgroundColor:  Color.fromARGB(255, 26, 136, 90),
-        body:
-        Container(
-          child: Center(
-            child: Column(         
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [    
-              
-              Text(
-                max(numbers[0],numbers[1]).toString() + ' ' + eq +' ' + min(numbers[0],numbers[1]).toString() + ' = ',
-                //style: TextStyle(fontSize: 55, color: Colors.white),
-              ),
-             
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child:Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(padding: const EdgeInsets.all(8.0),
-                    child: ConstrainedBox(constraints:BoxConstraints.tight(const Size(200,50)),
-                    child: TextFormField(
-                     // style: TextStyle(fontSize: 35, color: Colors.white),
-                      controller: value,
-                    ),
-                    )
-                    ),
-                    Padding(padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      icon: const Icon(Icons.done),
-                      onPressed: () => saveButton(numbers),
-                    ),
-                    )
-                  ]
-                  ),
-                ),
-            ],
+        body: Center(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Solve the equation!', style: Theme.of(context).textTheme.titleMedium),
+            const Divider(indent: 150, endIndent: 150,),
+            Text(
+              max(numbers[0],numbers[1]).toString() + ' ' + eq +' ' + min(numbers[0],numbers[1]).toString() + ' = ?',
+              style: Theme.of(context).textTheme.displayMedium,
             ),
+
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(padding: const EdgeInsets.all(8.0),
+                  child: ConstrainedBox(constraints:BoxConstraints.tight(const Size(200,50)),
+                  child: TextFormField(
+                   // style: TextStyle(fontSize: 35, color: Colors.white),
+                    controller: value,
+                  ),
+                  )
+                  ),
+                  Padding(padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.done),
+                    onPressed: () => saveButton(numbers),
+                  ),
+                  )
+                ]
+                ),
+              ),
+          ],
           ),
         ),
-      ),
+
+      
     );
   }
 }

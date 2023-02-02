@@ -1,13 +1,12 @@
-import 'dart:ui';
-
 import 'package:arise/LightTask.dart';
 import 'package:arise/MathTask.dart';
 import 'package:arise/MicTask.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:arise/PointsScreen.dart';
 
-import 'AlarmDatabase.dart';
-import 'package:arise/SettingsScreen.dart';
+//import 'package:timezone/data/latest.dart' as tz;
+
+import 'package:arise/AlarmDatabase.dart';
+import 'SettingsScreen.dart';
 import 'package:intl/intl.dart';
 import 'EditAlarm.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +21,17 @@ class AlarmListScreenWidget extends StatefulWidget {
 }
 
 class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
+  @override
+  void initState() {
+    super.initState();
+    //tz.initializeTimeZones();
+  }
 
   @override
   Widget build(BuildContext context) {
     Alarm tempAlarm;
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1C19),
+      //backgroundColor: const Color.fromARGB(1, 26, 28, 25),
       appBar: AppBar(
           title: const Text('Alarms'),
           centerTitle: true,
@@ -35,8 +39,8 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
               borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(15),
                   bottomLeft: Radius.circular(15)))
-        //backgroundColor: Colors.transparent,
-      ),
+          //backgroundColor: Colors.transparent,
+          ),
       drawer: Drawer(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -54,10 +58,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
               leading: const Icon(Icons.grade),
               title: const Text('Points & Stats'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PointsWidget()));
               },
             ),
             ListTile(
@@ -220,13 +221,10 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
     switch(difficulty) {
       case 'Easy':
         return Gradients.easy;
-        break;
       case 'Medium':
         return   Gradients.medium;
-        break;
       case 'Hard':
         return Gradients.hard;
-        break;
       default:
         return Gradients.neutral; }
   }

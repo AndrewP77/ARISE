@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:math';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:avatar_glow/avatar_glow.dart';
+import 'data.dart';
 import 'GreetingScreen.dart';
 
 class MicTask extends StatefulWidget {
@@ -17,14 +17,16 @@ class _MicTaskState extends State<MicTask> {
   late stt.SpeechToText _speech;
   bool _done = false;
   bool _isListening = false;
-  double _confidence = 1.0;
-  String _text = ' ';
-  String test = 'say something';    //array with strings and choose random?
- 
+  //double _confidence = 1.0;
+  String _recognizedText = ' ';
+  String message = '';
+  late String referenceText;
+
   @override
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    referenceText = removePunctuation((tongueTwisters..shuffle()).first);
   }
 
  
@@ -38,12 +40,21 @@ class _MicTaskState extends State<MicTask> {
       if (available) {
         setState(() => _isListening = true);
         _speech.listen(
+          // partialResults: false,
           onResult: (val) => setState(() {
-            _text = val.recognizedWords;
-            
-            if (val.hasConfidenceRating && val.confidence > 0) {
-              _confidence = val.confidence;
+            _recognizedText = val.recognizedWords.toLowerCase();
+            if (referenceText == _recognizedText) {
+              setState(() {
+                _done = true;
+                message = 'Correct!';
+                _speech.stop();
+                _isListening = false;
+              });
             }
+            _route();
+            // if (val.hasConfidenceRating && val.confidence > 0) {
+            //   _confidence = val.confidence;
+            // }
           }),
         );
       }
@@ -51,38 +62,48 @@ class _MicTaskState extends State<MicTask> {
       setState(() => _isListening = false);
       _speech.stop();
     }
-    setState(() {
-      _done = true;
-      _route();
-    });
+    // setState(() {
+    //   _done = true;
+    //   _route();
+    // });
   }
   
   void _route() async{
    if(_done) {
-      if (test == _text) {
+      if (referenceText == _recognizedText) {
+        setState(() {
+          message = 'Correct!';
+          _speech.stop();
+          _isListening = false;
+        });
        Future.delayed(Duration(seconds: delayAfterCompletion), () async {
               Navigator.push(
             context, 
             MaterialPageRoute(builder: (context) => GreetingScreen()),
           );
+              //TODO: pressing back in greeting screen returns you here
             });
-      }
+      }}
       else {
-                SingleChildScrollView(
-                 reverse: true,
-                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-                  child: Text('try again'),
-                )
-               );
+        setState(() {
+          message = 'Try again...';
+          //_speech.stop();
+          //_isListening = false;
+        });
+               //  SingleChildScrollView(
+               //   reverse: true,
+               //   child: Container(
+               //    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
+               //    child: Text('try again'),
+               //  )
+               // );
       }
-  }
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-    home: Scaffold (
+    return Scaffold (
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -92,50 +113,34 @@ class _MicTaskState extends State<MicTask> {
         repeatPauseDuration: const Duration(microseconds: 100),
         repeat: true,
         child: FloatingActionButton(
-          onPressed: _listen,  
+          onPressed: () {_recognizedText =''; _listen();},
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         )
       ),
-      body:
-      Container(
-        child: Center(
-         child:Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [ 
-              Text (
-                //quote
-                test,
-              ),
-              if (test == _text) ...[
-                 SingleChildScrollView(
-                 reverse: true,
-                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-                  child: Text('correct'),
-                )
-               )
-               //navigate to another screen
-              ]
-              else ... [
-                SingleChildScrollView(
-                 reverse: true,
-                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-                  child: Text('try again'),
-                )
-               )
-                
-              ],
-             
-            ]
-             
-          ),
-        )
+      body: Center(
+       child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Say:', style: Theme.of(context).textTheme.titleMedium,),
+            const Divider(indent: 150, endIndent: 150,),
+            Text (referenceText, style: Theme.of(context).textTheme.titleLarge,),
+            Text(message),
+            Text('Recognized text: $_recognizedText'),
+            //Text('Reference text: $referenceText'),
+          ]
+        ),
       )
-    )
     );
   }
-   
+
+  removePunctuation(String str) {
+    return str.toLowerCase()
+        .replaceAll("?", "")
+        .replaceAll("'", "")
+        .replaceAll(",", "")
+        .replaceAll(".", "")
+        .replaceAll("!", "");
+  }
 }
 
 
