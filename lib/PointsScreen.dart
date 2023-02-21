@@ -32,7 +32,9 @@ class _PointsWidgetState extends State<PointsWidget> {
                   bottomLeft: Radius.circular(15))),
         ),
         body: Center(
-            child: Column(
+            child: ListView (
+    children: [
+            Column(
                 //mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,6 +66,11 @@ class _PointsWidgetState extends State<PointsWidget> {
                 },
               ),
               const SizedBox(height: 35),
+              ]),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
               const Text('Next Level Rewards:'),
               ToggleButtons(
                   onPressed: (int index) {},
@@ -78,6 +85,7 @@ class _PointsWidgetState extends State<PointsWidget> {
                   children: List<Widget>.generate(levelRewards[level].length,
                       (index) => Text(levelRewards[level][index]))),
               const SizedBox(height: 15),
+        ]),
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.star_rate_rounded),

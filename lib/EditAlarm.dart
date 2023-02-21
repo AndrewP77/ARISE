@@ -66,7 +66,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
           )
         ],
       ),
-      body: Column(
+      body: ListView(
         //padding: EdgeInsets.zero,
         children: <Widget>[
           TimePickerSpinner(

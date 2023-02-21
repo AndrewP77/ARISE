@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
 
 
     fontFamily: 'Inter',
-    // TODO: put heights if it works.
     textTheme: const TextTheme(
         headlineLarge: TextStyle(fontSize: 32.0),
         headlineMedium: TextStyle(fontSize: 28.0),
