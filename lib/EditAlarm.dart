@@ -1,6 +1,7 @@
 import 'package:arise/AlarmDatabase.dart';
 
 
+import 'color_schemes.g.dart';
 import 'data.dart';
 import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,9 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1C19),
       appBar: AppBar(
+
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(15),
@@ -54,6 +57,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                 alarmInfo.daysActive = daysActive;
                 alarmInfo.difficulty = difficulty;
                 alarmInfo.vibration = vibration;
+                alarmInfo.ringtone = ringtone;
 
                 alarmInfo.isNew
                     ? DatabaseHelper.instance.add(alarmInfo)
@@ -67,6 +71,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
         ],
       ),
       body: Column(
+
         //padding: EdgeInsets.zero,
         children: <Widget>[
           TimePickerSpinner(
@@ -189,9 +194,9 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
               }),
           const Divider(),
           ListTile(
-              title: Text('Repeat'),
+              title: const Text('Repeat'),
               subtitle: Text(alarmInfo.daysActive),
-              trailing: Icon(Icons.arrow_right),
+              trailing: const Icon(Icons.arrow_right),
               onTap: () {
                 showModalBottomSheet(
                     shape: const RoundedRectangleBorder(
@@ -269,6 +274,8 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
           ListTile(
             title: const Text('Vibration'),
             trailing: Switch(
+              activeColor: lightColorScheme.onPrimary,
+              activeTrackColor: lightColorScheme.primary,
               value: vibration == 1 ? true : false,
               onChanged: (bool value) {
                 setState(() {
