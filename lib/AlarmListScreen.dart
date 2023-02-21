@@ -1,6 +1,9 @@
 import 'package:arise/LightTask.dart';
 import 'package:arise/MathTask.dart';
 import 'package:arise/MicTask.dart';
+import 'package:arise/color_schemes.g.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:arise/PointsScreen.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
@@ -31,6 +34,8 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
   Widget build(BuildContext context) {
     Alarm tempAlarm;
     return Scaffold(
+
+      backgroundColor: const Color(0xFF1A1C19),
       //backgroundColor: const Color.fromARGB(1, 26, 28, 25),
       appBar: AppBar(
           title: const Text('Alarms'),
@@ -94,13 +99,14 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
         ),
       ),
       body: Center(
+
         child: FutureBuilder<List<Alarm>>(
 
             future: DatabaseHelper.instance.getAlarms(),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Alarm>> snapshot) {
               if (!snapshot.hasData) {
-                return Center(child: Text('Loading...'));
+                return const Center(child: Text('Loading...'));
               }
               return snapshot.data!.isEmpty
                   ? const Center(
@@ -139,10 +145,13 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
                           child: const Icon(Icons.delete)),
                       child: Container(
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: colorUpdate(alarm.difficulty)
+                                colors: [Color(0xff636c77), Color(0x00636c77)],
+                                // begin: Alignment.topLeft,
+                                // end: Alignment.bottomRight,
+                                // colors: colorUpdate(alarm.difficulty)
                              ),
                               borderRadius: BorderRadius.circular(23)),
                           padding: const EdgeInsets.all(10),
@@ -162,7 +171,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headlineSmall),
+                                              .headlineLarge),
                                       Text(alarm.title,
                                           style: Theme.of(context)
                                               .textTheme
@@ -177,6 +186,10 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Switch(
+
+                                      splashRadius: 22,
+                                      activeColor: lightColorScheme.onPrimary,
+                                        activeTrackColor: lightColorScheme.primary,
                                         value: alarm.isActive == 1 ? true : false,
                                         onChanged: (bool newValue) {
                                           setState(() {
