@@ -1,6 +1,7 @@
 import 'package:arise/AlarmDatabase.dart';
 
 
+import 'color_schemes.g.dart';
 import 'data.dart';
 import 'TaskSelection.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                 alarmInfo.daysActive = daysActive;
                 alarmInfo.difficulty = difficulty;
                 alarmInfo.vibration = vibration;
+                alarmInfo.ringtone = ringtone;
 
                 alarmInfo.isNew
                     ? DatabaseHelper.instance.add(alarmInfo)
@@ -269,6 +271,8 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
           ListTile(
             title: const Text('Vibration'),
             trailing: Switch(
+              activeColor: lightColorScheme.onPrimary,
+              activeTrackColor: lightColorScheme.primary,
               value: vibration == 1 ? true : false,
               onChanged: (bool value) {
                 setState(() {

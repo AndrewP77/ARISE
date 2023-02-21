@@ -1,7 +1,7 @@
 import 'package:arise/LocationField.dart';
 import 'package:arise/NameField.dart';
 import 'package:flutter/material.dart';
-
+import 'package:arise/AlarmDatabase.dart';
 
 
 class SettingsScreen extends StatefulWidget {
@@ -15,6 +15,9 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreen extends State<SettingsScreen>{
   static const List<String> silence_min = ['3 minutes', '5 minutes', '8 minutes'];
+  // var name = DatabaseHelper.instance.getProfile();
+  Profile profile = Profile(name: 'hi', id: 1);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,106 +30,84 @@ class _SettingsScreen extends State<SettingsScreen>{
         // leading: const Icon(Icons.arrow_back),
       ),
       body:
+
       ListView(
-        padding: const EdgeInsets.all(22),
-        children: <Widget>[
 
-          ListTile(
-              title: const Text('Profile', style: TextStyle(fontFamily: 'Inter')),
-              trailing: const Icon(Icons.arrow_right),
-              onTap: () {
-                showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+      padding: const EdgeInsets.all(22),
+        children:  <Widget>[
+        FutureBuilder(
+        future: DatabaseHelper.instance.getProfile(),
+        builder: (context, snapshot) {
+            return ListTile(
+                title: const Text('Profile'),
+                // subtitle: Text('your name'),
+                trailing: const Icon(Icons.arrow_right),
+                onTap: () {
+                  var nameController = TextEditingController(text: snapshot.data!.isEmpty
+                                                                    ? 'enter'
+                                                                    : snapshot.data!.first.name );
+                  showModalBottomSheet(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
 
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) => Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          ),
-                          SizedBox(
-                            height: 280,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Profile',
-                                    style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                                  ),
-                                  const LocationField(),
-                                  const NameField(),
-                                ],
-                              ),
-                            ),
-                          ),
-
-
-
-                          SizedBox(height: 10),
-                        ],
-                      ),
-                    ));
-                // showModalBottomSheet(
-                //
-                //     shape: const RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.only(
-                //             topLeft: Radius.circular(25),
-                //             topRight: Radius.circular(25))),
-                //     context: context,
-                //     builder: (context) => Padding(
-                //       padding: MediaQuery.of(context).viewInsets,
-                //
-                //       child: SizedBox(
-                //       height: 300,
-                //         child: Center(
-                //         child: Column(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: <Widget>[
-                //             Text(
-                //               'Profile',
-                //               style:
-                //               Theme.of(context).textTheme.headlineSmall,
-                //             ),
-                //             const LocationField(),
-                //             const NameField(),
-                //           ],
-                //         ),
-                //       ),
-                //     )
-                //
-                //
-                //       // return SizedBox(
-                //       //   height: 300,
-                //       //
-                //       //   child: Center(
-                //       //     child: Column(
-                //       //       mainAxisAlignment: MainAxisAlignment.center,
-                //       //       children: <Widget>[
-                //       //         Text(
-                //       //           'Profile',
-                //       //           style:
-                //       //           Theme.of(context).textTheme.headlineSmall,
-                //       //         ),
-                //       //         const LocationField(),
-                //       //         const NameField(),
-                //       //       ],
-                //       //     ),
-                //       //   ),
-                //       //
-                //       // );}
-                //
-                //     ));
-              }
-          ),
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: FutureBuilder(
+                          future: DatabaseHelper.instance.getProfile(),
+                          builder: (context, snapshot) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const SizedBox(height: 50),
+                                Text(
+                                  'Profile',
+                                  style: Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                TextFormField(
+                                  controller: nameController,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16.0, horizontal: 16.0),
+                                      child: ElevatedButton(
+                                        //style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).errorColor),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            profile.name = nameController.text;
+                                            profile.id = 1;
+                                            DatabaseHelper.instance.updateProfile(profile);
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ));
+                }
+            );
+        }),
 
           const Divider(),
           ListTile(
