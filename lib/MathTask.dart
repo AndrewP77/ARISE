@@ -1,17 +1,20 @@
 import 'dart:math';
+import 'package:arise/RingingAlarm.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'GreetingScreen.dart';
+import 'package:arise/RingingAlarm.dart';
 
 //καθε φορα που κανει λαθος αλλαζει η πραξη δεν καταφερα να μενει η ιδια
 
-class CreateEquation extends StatefulWidget {
-  const CreateEquation({Key? key}) : super(key: key);
+class MathTask extends StatefulWidget {
+  const MathTask({Key? key}) : super(key: key);
 
   @override
-  _CreateEquationState createState() => _CreateEquationState();
+  _MathTaskState createState() => _MathTaskState();
 }
 
-class _CreateEquationState extends State<CreateEquation> {
+class _MathTaskState extends State<MathTask> {
   int delayAfterCompletion = 2;
   var list = ['+', '-', '*', '/'];
   var difficulty = 'easy';  //πρεπει να τεθει απο αλλο αρχειο
@@ -32,28 +35,31 @@ class _CreateEquationState extends State<CreateEquation> {
   late List<double> numbers;
 
   void saveButton(numbers) {
-    setState(() {
       double m = max(numbers[0],numbers[1]);
       double n = min(numbers[0],numbers[1]);
         if (m + n == double.parse(value.text) || m - n == double.parse(value.text) || m * n == double.parse(value.text) || m / n == double.parse(value.text) ) {
          
 
-          //go to greeting screen προς το παρον παει σε αλλη πραξη
-            
+          //go to greeting screen
+
         Future.delayed(Duration(seconds: delayAfterCompletion), () async {
-              Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => GreetingScreen()),
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => GreetingScreen())
           );
             });
-            /*showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Correct!')
+        RingingAlarmWidget.player.setReleaseMode(ReleaseMode.stop);
+        RingingAlarmWidget.player.stop();
+        setState(() {
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) =>
+                AlertDialog(
+                    title: const Text('Correct!')
                 ),
-            );*/
+          );
+        });
         }
         else {
+          setState(() {
          showDialog(
           context: context,
           builder: (context) {
@@ -77,9 +83,10 @@ class _CreateEquationState extends State<CreateEquation> {
               ),
             );
           });
+          });
     }
 
-    });
+
     value.text = ' ';
   }
 

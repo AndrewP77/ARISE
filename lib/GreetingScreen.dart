@@ -1,3 +1,5 @@
+import 'package:arise/RingingAlarm.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'AlarmListScreen.dart';
 import 'package:intl/intl.dart';
@@ -141,6 +143,8 @@ class _GreetingScreenState extends State<GreetingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    RingingAlarmWidget.player.setReleaseMode(ReleaseMode.stop);
+    RingingAlarmWidget.player.stop();
   return Scaffold (
     appBar: AppBar(
       leading: GestureDetector(

@@ -31,10 +31,6 @@ class _TitleScreen extends State<TitleScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(
-          top: 187,
-          bottom: 531,
-        ),
         color: const Color(0xfffff9e7),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -45,7 +41,7 @@ class _TitleScreen extends State<TitleScreen> {
               width: 294,
               height: 52,
               child: Text(
-                "ARISE!\n\n",
+                "ARISE!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,

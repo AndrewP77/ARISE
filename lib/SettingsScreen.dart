@@ -193,7 +193,7 @@ class _SettingsScreen extends State<SettingsScreen>{
               onTap: () {
                 AlertDialog alert = const AlertDialog(
                   title: Text('Contact Us'),
-                  content: Text('Ask your mom for our contact',
+                  content: Text("Don't",
                   ),
                 );
                 showDialog(

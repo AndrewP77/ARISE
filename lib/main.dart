@@ -1,4 +1,3 @@
-import 'NotificationService.dart';
 import 'package:flutter/services.dart';
 import 'color_schemes.g.dart';
 import 'package:arise/TitleScreen.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 void main() {
   //Entire app locked in portrait mode
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().setup();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) {
     runApp(new MyApp());

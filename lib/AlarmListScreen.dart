@@ -1,6 +1,7 @@
 import 'package:arise/LightTask.dart';
 import 'package:arise/MathTask.dart';
 import 'package:arise/MicTask.dart';
+import 'package:arise/RingingAlarm.dart';
 import 'package:arise/color_schemes.g.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
@@ -34,7 +35,6 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
   Widget build(BuildContext context) {
     Alarm tempAlarm;
     return Scaffold(
-
       backgroundColor: const Color(0xFF1A1C19),
       //backgroundColor: const Color.fromARGB(1, 26, 28, 25),
       appBar: AppBar(
@@ -92,9 +92,16 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
               title: const Text('Math Task'),
               onTap: () => {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => CreateEquation()))
+                    MaterialPageRoute(builder: (context) => MathTask()))
               },
             ),
+            const Divider(),
+            ListTile(title: const Text('Test the Alarm'),
+              onTap: () => {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => RingingAlarmWidget())
+                )
+              },)
           ],
         ),
       ),
@@ -154,11 +161,11 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
                                 // colors: colorUpdate(alarm.difficulty)
                              ),
                               borderRadius: BorderRadius.circular(23)),
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
                           margin: const EdgeInsets.all(12),
                           width: MediaQuery.of(context).size.width,
                           child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Column(
