@@ -1,6 +1,8 @@
 import 'package:arise/RingingAlarm.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'AlarmDatabase.dart';
 import 'AlarmListScreen.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
@@ -29,8 +31,35 @@ class _GreetingScreenState extends State<GreetingScreen> {
   var apikey = 'ae77c576cebbe63e4827266ae057451b';
   var lat;
   var lon;
+  late String name;
+  // Points points = Points();
+  getPoints() async {
+    Database db = await DatabaseHelper.instance.database;
+    var name = await db.query('points_table', limit: 1);
+    List<Points> n = name.isNotEmpty
+        ? name.map((c) => Points.fromMap(c)).toList()
+        : [];
+    Points points = n.first;
+    points.total_points += 20;
+    DatabaseHelper.instance.updatePoints(points);
+  }
+  getName() async {
+    Database db = await DatabaseHelper.instance.database;
+    var prof = await db.query('profile', limit: 1);
+    List<Profile> n = prof.isNotEmpty
+        ? prof.map((c) => Profile.fromMap(c)).toList()
+        : [];
+    Profile profile = n.first;
+    name = profile.name;
+  }
 
-  
+  // late int totalPoints;
+
+  _GreetingScreenState() {
+    getPoints();
+  }
+
+
   Future<bool> _determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
@@ -79,7 +108,8 @@ class _GreetingScreenState extends State<GreetingScreen> {
   Future<void> get_weather() async {
     http.Response response = await http.get(Uri.parse("http://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apikey&units=metric"));
     var results = jsonDecode(response.body);
-    
+    await getName();
+
     setState(() {
       temp = results['main']['temp'];
       temp = temp.toInt();
@@ -95,7 +125,7 @@ class _GreetingScreenState extends State<GreetingScreen> {
       weather = results['weather'][0]['main'];
       id = results['weather'][0]['id'];
       weatherIcon = getWeatherIcon(id);  
-      message = getMessage(temp);
+      message = "Hello, $name.\n${getMessage(temp)}";
     });
 
   }

@@ -85,6 +85,31 @@ class Profile {
   };
 }
 
+
+class Points {
+  int total_points;
+  int streak;
+  int id;
+
+  Points (
+      {
+        this.total_points = 265,
+        this.id = 1,
+        this.streak = 4
+      });
+
+  factory Points.fromMap(Map<String, dynamic> json) => Points(
+    id: json["id"],
+    total_points: json["total_points"],
+    streak: json["streak"]
+  );
+  Map<String, dynamic> toMap() => {
+    "total_points": total_points,
+    "streak": streak,
+    "id": id,
+  };
+}
+
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -94,7 +119,7 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'arise5.db');
+    String path = join(documentsDirectory.path, 'arise7.db');
     return await openDatabase(
       path,
       version: 1,
@@ -117,7 +142,8 @@ class DatabaseHelper {
       ''');
     await db.execute('''
       CREATE TABLE points_table (
-          total_points INT PRIMARY KEY,
+          id INT PRIMARY KEY,
+          total_points INT,
           streak INT
       )
       ''');
@@ -129,14 +155,14 @@ class DatabaseHelper {
     ''');
     await db.execute(
       '''
-      INSERT INTO profile values ('name', 1) 
+      INSERT INTO profile values ('(your name)', 1) 
     '''
     );
-
-    // print('--------------------------------db created...');
-      // await db.insert('alarm_table', {'id': 1, 'title': "hi nat"});
-
-
+    await db.execute(
+        '''
+      INSERT INTO points_table values (1, 155, 3) 
+      '''
+    );
   }
 
   // helper functions
@@ -144,7 +170,6 @@ class DatabaseHelper {
   // getAlarms returns a list of the alarms in the database, or [] if empty
   Future<List<Alarm>> getAlarms() async {
     Database db = await instance.database;
-    // await db.rawDelete('DELETE FROM alarm_table');
     var alarms = await db.query('alarm_table', orderBy: 'title');
     List<Alarm> alarmList = alarms.isNotEmpty
         ? alarms.map((c) => Alarm.fromMap(c)).toList()
@@ -180,6 +205,16 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.update('profile', profile.toMap(), where: 'id =  ?', whereArgs: [profile.id]);
   }
-
+  Future<List<Points>> getPoints() async {
+    Database db = await instance.database;
+    var name = await db.query('points_table', limit: 1);
+    List<Points> n = name.isNotEmpty
+        ? name.map((c) => Points.fromMap(c)).toList()
+        : [];
+    return n;
+  }
+  Future<int> updatePoints(Points points) async {
+    Database db = await instance.database;
+    return await db.update('points_table', points.toMap(), where: 'id =  ?', whereArgs: [1]);
+  }
 }
-
