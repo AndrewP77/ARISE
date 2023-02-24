@@ -30,40 +30,41 @@ class _TitleScreen extends State<TitleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: const Color(0xfffff9e7),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            SizedBox(
-              width: 294,
-              height: 52,
-              child: Text(
-                "ARISE!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 40,
-                  fontFamily: "Inter",
-                  fontWeight: FontWeight.w800,
+    return Scaffold(
+        body: Container(
+            color: const Color(0xfffff9e7),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: const [
+                SizedBox(
+                  width: 294,
+                  height: 52,
+                  child: Text(
+                    "ARISE!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 40,
+                      fontFamily: "Inter",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: 126,
-              height: 30,
-              child: Text(
-                "wakey wakey!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+                SizedBox(
+                  width: 126,
+                  height: 30,
+                  child: Text(
+                    "wakey wakey!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ));
+              ],
+            )));
   }
 }
