@@ -1,11 +1,9 @@
 import 'dart:math';
+import 'package:arise/AlarmListScreen.dart';
 import 'package:arise/RingingAlarm.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'GreetingScreen.dart';
-import 'package:arise/RingingAlarm.dart';
-
-//καθε φορα που κανει λαθος αλλαζει η πραξη δεν καταφερα να μενει η ιδια
 
 class MathTask extends StatefulWidget {
   const MathTask({Key? key}) : super(key: key);
@@ -52,8 +50,8 @@ class _MathTaskState extends State<MathTask> {
           showDialog<String>(
             context: context,
             builder: (BuildContext context) =>
-                AlertDialog(
-                    title: const Text('Correct!')
+                const AlertDialog(
+                    title: Text('Correct!')
                 ),
           );
         });

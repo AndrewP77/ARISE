@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:arise/RingingAlarm.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class _GreetingScreenState extends State<GreetingScreen> {
   var minTemp;
   var maxTemp;
   var humidity;
+  late Gradient  background = LinearGradient(colors: [Theme.of(context).scaffoldBackgroundColor, Theme.of(context).scaffoldBackgroundColor]);
   String weather = '';
   String message = '';
   var id;
@@ -132,20 +135,75 @@ class _GreetingScreenState extends State<GreetingScreen> {
 
    String getWeatherIcon(int condition) {
     if (condition < 300) {
+      setState(() {
+        background =
+            const RadialGradient(colors: [Colors.indigoAccent, Colors.deepPurple], center: Alignment.centerLeft);
+      });
       return 'thunder';
     } else if (condition < 400) {
+        setState(() {
+          background =
+              const RadialGradient(
+                colors: [Color(0xff6d7ccc), Color(0xffb1e6fe)],
+                center: Alignment.topCenter,
+                radius: 0.8,
+              );
+        });
       return 'drizzle';
     } else if (condition == 500) {
+      setState(() {
+        background =
+            const RadialGradient(
+              colors: [Color(0xffb9b9b9), Color(0xff747474)],
+              center: Alignment.topCenter,
+              radius: 0.8,
+            );
+      });
       return 'rain';
     } else if (condition < 600) {
+      setState(() {
+        background =
+            const RadialGradient(
+              colors: [Color(0xffb9b9b9), Color(0xff607d8b)],
+              center: Alignment.topCenter,
+              radius: 0.8,
+            );
+      });
       return 'heavy_rain';
     } else if (condition < 700) {
+      setState(() {
+        background =
+            const RadialGradient(
+              colors: [Color(0xffa2a2a2), Color(0xffd1dadf)],
+              center: Alignment.center,
+              radius: 0.8,
+            );
+      });
       return 'snow';
     } else if (condition < 800) {
+      setState(() {
+        background =
+        const RadialGradient(colors: [Colors.white, Colors.white54], center: Alignment.topCenter);
+      });
       return 'fog';
     } else if (condition == 800) {
+      setState(() {
+        background = const RadialGradient(
+          colors: [Color(0xffffef62), Color(0xff8bdafe), Color(0xff2095f3)],
+          center: Alignment.topRight,
+          radius: 1.4,
+        );
+      });
       return 'sun';
     } else  {//(condition <= 804) {
+      setState(() {
+        background =
+            const RadialGradient(
+              colors: [Color(0xffb9b9b9), Color(0xffb9c8cf)],
+              center: Alignment.bottomCenter,
+              radius: 0.8,
+            );
+      });
       return 'cloud';
     } 
   }
@@ -178,33 +236,37 @@ class _GreetingScreenState extends State<GreetingScreen> {
   return Scaffold (
     appBar: AppBar(
       leading: GestureDetector(
-        child: Icon(Icons.home),
+        child: const Icon(Icons.home),
         onTap: () {
           Navigator.push(
             context, 
             MaterialPageRoute(builder: (context) => AlarmListScreenWidget()),
           );
         },
-      )
-      //icon to go to points screen
+      ),
+      backgroundColor: Colors.transparent,
+
     ),
+    extendBodyBehindAppBar: true,
     body: FutureBuilder(
       future: _loc,
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {       
-              return Scaffold(
-                  body: const Center(child: CircularProgressIndicator()));
+              return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()));
         }
         else if (snapshot.hasError) {
             return Center(
               child: Text(
                 '${snapshot.error} occurred',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             );
           } 
-          
-        return Column(
+
+        return  Container(
+          decoration: BoxDecoration(gradient: background),
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget> [
                 Row(
@@ -216,7 +278,7 @@ class _GreetingScreenState extends State<GreetingScreen> {
                     DateFormat("HH:mm").format(DateTime.now()),
                     style: TextStyle( fontSize: 100,),
                     ),
-                    Text(DateFormat("dd/MM").format(DateTime.now()),
+                    Text(DateFormat("EEE, dd/MM").format(DateTime.now()),
                     style: Theme.of(context).textTheme.titleLarge)
                   ]
                 ),
@@ -268,6 +330,7 @@ class _GreetingScreenState extends State<GreetingScreen> {
                 ]
               ),
           ],
+            )
         );
       }
     ),

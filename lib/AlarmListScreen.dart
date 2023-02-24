@@ -98,6 +98,7 @@ class _AlarmListScreenWidgetState extends State<AlarmListScreenWidget> {
             const Divider(),
             ListTile(title: const Text('Test the Alarm'),
               onTap: () => {
+              Navigator.of(context).pop(),
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => RingingAlarmWidget())
                 )
