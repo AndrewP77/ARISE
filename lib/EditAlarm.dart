@@ -222,9 +222,10 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                                 title: const Text("Daily"),
                                 onTap: () {
                                   setState(() {
-                                    alarmInfo.daysActive = Days.getFormatted(
-                                        [0, 1, 2, 3, 4, 5, 6],
-                                        compact: true);
+                                    alarmInfo.daysActive = "Daily";
+                                        // Days.getFormatted(
+                                        // [0, 1, 2, 3, 4, 5, 6],
+                                        // compact: true);
                                     Navigator.pop(context);
                                   });
                                 },
@@ -233,9 +234,10 @@ class _EditAlarmWidgetState extends State<EditAlarmWidget> {
                                 title: const Text("Monday to Friday"),
                                 onTap: () {
                                   setState(() {
-                                    alarmInfo.daysActive = Days.getFormatted(
-                                        [1, 2, 3, 4, 5],
-                                        compact: true);
+                                    alarmInfo.daysActive = "Monday to Friday";
+                                        //Days.getFormatted(
+                                        //[1, 2, 3, 4, 5],
+                                        //compact: true);
                                     Navigator.pop(context);
                                   });
                                 },
